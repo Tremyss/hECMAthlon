@@ -1,41 +1,53 @@
+
+class hECMAthlon {
+	// todo reduce
+	/* getMaxValue = (input) => {
+		const maxValues = input.split(",");
+		let maxValue = 0;
+		for (let i = 0; i < maxValues.length; i++) {
+			let tempValue = parseInt(maxValues[i]);
+			if (tempValue > maxValue) {
+				maxValue = tempValue;
+			}
+		}
+		return [maxValue];
+	} */
+
+	/* getMaxValue = (input) => {
+		return input.split(",").reduce((max, item) => {
+			return max < item ? item : max;
+		});
+	} */
+
+	getMaxValue = (input) => {
+		return input.split(",").reduce((maxValue, currentValue) => {
+			return parseInt(maxValue) < parseInt(currentValue) ? currentValue : maxValue;
+		}, 0);
+	}
+
+	// ? Filter
+	getGreaterThan = (input) => {
+		return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(
+			(num) => num > parseInt(input)
+		);
+	}
+
+	// ? map
+	fizzBuzz = (input) => {
+		const output = [];
+		[...Array(parseInt(input) + 1).keys()].slice(1).map((k) => {
+			let value;
+			if (k % 5 === 0 && k % 3 === 0) value = "FizzBuzz";
+			else if (k % 3 === 0) value = "Fizz";
+			else if (k % 5 === 0) value = "Buzz";
+			else value = k;
+			output.push(value);
+		});
+		return output;
+	}
+}
+
 function loadEvent() {
-	const hECMAthlon = {
-		getMaxValue: function (input) {
-			const maxValues = input.split(",");
-			let maxValue = 0;
-			for (let i = 0; i < maxValues.length; i++) {
-				let tempValue = parseInt(maxValues[i]);
-				if (tempValue > maxValue) {
-					maxValue = tempValue;
-				}
-			}
-			return [maxValue];
-		},
-
-		getGreaterThan: function (input) {
-			const greaterValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-			const greaterNums = [];
-			for (let j = 0; j < greaterValues.length; j++) {
-				if (greaterValues[j] > parseInt(input)) {
-					greaterNums.push(greaterValues[j]);
-				}
-			}
-			return greaterNums;
-		},
-
-		fizzBuzz: function (input) {
-			const output = [];
-			for (let k = 1; k <= parseInt(input); k++) {
-				let value;
-				if (k % 5 === 0 && k % 3 === 0) value = "FizzBuzz";
-				else if (k % 3 === 0) value = "Fizz";
-				else if (k % 5 === 0) value = "Buzz";
-				else value = k;
-				output.push(value);
-			}
-			return output;
-		},
-	};
 
 	const maxValueBtn = document.querySelector(".maxValue__btn");
 	const greaterThanBtn = document.querySelector(".greaterThan__btn");
@@ -49,31 +61,30 @@ function loadEvent() {
 	const greaterThanRoot = document.querySelector(".greaterThan__container");
 	const fizzBuzzRoot = document.querySelector(".fizzBuzz__container");
 
+	const hECMA = new hECMAthlon();
+
 	maxValueBtn.addEventListener("click", () => {
-		const maxValue = getOutput(hECMAthlon.getMaxValue(maxValueInput.value));
+		let maxValue = getOutput(hECMA.getMaxValue(maxValueInput.value));
 		logResult(maxValueRoot, maxValue);
 	});
 	greaterThanBtn.addEventListener("click", () => {
 		const greaterValues = getOutput(
-			hECMAthlon.getGreaterThan(greaterThanInput.value)
+			hECMA.getGreaterThan(greaterThanInput.value)
 		);
 		logResult(greaterThanRoot, greaterValues);
 	});
 	fizzBuzzBtn.addEventListener("click", () => {
-		const result = getOutput(hECMAthlon.fizzBuzz(fizzBuzzInput.value));
+		const result = getOutput(hECMA.fizzBuzz(fizzBuzzInput.value));
 		logResult(fizzBuzzRoot, result);
 	});
 
-	function getOutput(output) {
-		const returnValue = ["The function starts"];
-		for (let i = 0; i < output.length; i++) {
-			returnValue.push(output[i]);
-		}
-		returnValue.push("The function ends");
-		return returnValue;
+	// ? spread
+
+	const getOutput = (output) => {
+		return ["The function starts", ...output, "The function ends"]
 	}
 
-	function logResult(place, values) {
+	const logResult = (place, values) => {
 		while (place.firstChild) {
 			place.firstChild.remove();
 		}
