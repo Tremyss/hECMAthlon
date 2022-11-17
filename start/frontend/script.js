@@ -21,8 +21,8 @@ class hECMAthlon {
 
 	getMaxValue = (input) => {
 		return input.split(",").reduce((maxValue, currentValue) => {
-			return parseInt(maxValue) < parseInt(currentValue) ? currentValue : maxValue;
-		}, 0);
+			return Number(maxValue) < Number(currentValue) ? currentValue : maxValue;
+		}, -Infinity);
 	}
 
 	// ? Filter
@@ -64,7 +64,7 @@ function loadEvent() {
 	const hECMA = new hECMAthlon();
 
 	maxValueBtn.addEventListener("click", () => {
-		let maxValue = getOutput(hECMA.getMaxValue(maxValueInput.value));
+		let maxValue = getOutput([hECMA.getMaxValue(maxValueInput.value)]);
 		logResult(maxValueRoot, maxValue);
 	});
 	greaterThanBtn.addEventListener("click", () => {
